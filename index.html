@@ -18,6 +18,14 @@
             <img src="assets/icons/recycle_bin_empty.png" alt="Корзина">
             <span>Корзина</span>
         </div>
+        <div class="desktop-icon" id="edgeIcon">
+            <img src="assets/icons/edge.png" alt="Microsoft Edge">
+            <span>Microsoft Edge</span>
+        </div>
+        <div class="desktop-icon" id="notepadIcon">
+            <img src="assets/icons/notepad.png" alt="Блокнот">
+            <span>Блокнот</span>
+        </div>
     </div>
 
     <div id="taskbar">
@@ -28,9 +36,11 @@
             <img src="assets/icons/search.png" alt="Поиск" class="taskbar-icon">
             <img src="assets/icons/widgets.png" alt="Виджеты" class="taskbar-icon">
             <img src="assets/icons/chat.png" alt="Чат" class="taskbar-icon">
-            <img src="assets/icons/explorer.png" alt="Проводник" class="taskbar-icon">
-            <img src="assets/icons/edge.png" alt="Microsoft Edge" class="taskbar-icon">
+            <img src="assets/icons/explorer.png" alt="Проводник" class="taskbar-icon" id="taskbarExplorerIcon">
+            <img src="assets/icons/edge.png" alt="Microsoft Edge" class="taskbar-icon" id="taskbarEdgeIcon">
             <img src="assets/icons/store.png" alt="Microsoft Store" class="taskbar-icon">
+            <img src="assets/icons/notepad.png" alt="Блокнот" class="taskbar-icon" id="taskbarNotepadIcon">
+            <img src="assets/icons/calculator.png" alt="Калькулятор" class="taskbar-icon" id="taskbarCalculatorIcon">
         </div>
         <div id="taskbar-right">
             <div class="system-tray-icon">
@@ -39,7 +49,7 @@
             <div class="system-tray-icon">
                 <img src="assets/icons/speaker.png" alt="Звук">
             </div>
-            <div class="system-tray-icon">
+            <div class="system-tray-icon time-date-container">
                 <span id="time">13:45</span>
                 <span id="date">05.07.2025</span>
             </div>
@@ -49,21 +59,61 @@
     <div id="start-menu" class="hidden">
         <div class="start-menu-header">
             <span>Pinned</span>
-            <span>All apps</span>
+            <span class="start-menu-all-apps-button">All apps ></span>
         </div>
         <div class="start-menu-pinned-apps">
-            <div class="start-app-tile">
+            <div class="start-app-tile" data-app="calculator">
                 <img src="assets/icons/calculator.png" alt="Калькулятор">
                 <span>Калькулятор</span>
             </div>
-            <div class="start-app-tile">
+            <div class="start-app-tile" data-app="notepad">
                 <img src="assets/icons/notepad.png" alt="Блокнот">
                 <span>Блокнот</span>
+            </div>
+            <div class="start-app-tile" data-app="edge">
+                <img src="assets/icons/edge.png" alt="Microsoft Edge">
+                <span>Edge</span>
+            </div>
+             <div class="start-app-tile" data-app="explorer">
+                <img src="assets/icons/explorer.png" alt="Проводник">
+                <span>Проводник</span>
+            </div>
+             <div class="start-app-tile">
+                <img src="assets/icons/settings.png" alt="Настройки">
+                <span>Настройки</span>
+            </div>
+             <div class="start-app-tile">
+                <img src="assets/icons/photos.png" alt="Фотографии">
+                <span>Фотографии</span>
             </div>
             </div>
         <div class="start-menu-recommended">
             <span>Recommended</span>
+            <span class="start-menu-more-recommended">More ></span>
+            <div class="recommended-items">
+                <div class="recommended-item">
+                    <img src="assets/icons/word.png" alt="Word Document">
+                    <div>
+                        <span>Недавний документ</span>
+                        <p>Microsoft Word • 2 ч назад</p>
+                    </div>
+                </div>
+                <div class="recommended-item">
+                    <img src="assets/icons/powerpoint.png" alt="PowerPoint Presentation">
+                    <div>
+                        <span>Презентация "Проект"</span>
+                        <p>PowerPoint • Вчера</p>
+                    </div>
+                </div>
+                 <div class="recommended-item">
+                    <img src="assets/icons/excel.png" alt="Excel Spreadsheet">
+                    <div>
+                        <span>Отчет по продажам</span>
+                        <p>Excel • 3 дн. назад</p>
+                    </div>
+                </div>
             </div>
+        </div>
         <div class="start-menu-footer">
             <div class="start-menu-user">
                 <img src="assets/icons/user_profile.png" alt="Пользователь">
@@ -76,9 +126,10 @@
     </div>
 
     <div id="app-windows-container">
-        <div class="app-window hidden" id="explorerWindow">
+        <div class="app-window hidden" id="explorerWindow" data-app-id="explorer">
             <div class="window-header">
-                <span class="window-title">Этот ПК</span>
+                <img src="assets/icons/explorer.png" alt="Проводник" class="window-app-icon">
+                <span class="window-title">Проводник</span>
                 <div class="window-controls">
                     <button class="minimize-button">—</button>
                     <button class="maximize-button">▢</button>
@@ -86,10 +137,109 @@
                 </div>
             </div>
             <div class="window-content">
-                <p>Здесь будет содержимое Проводника.</p>
+                <p>Добро пожаловать в Проводник!</p>
+                <div class="explorer-content">
+                    <div class="explorer-sidebar">
+                        <ul>
+                            <li><img src="assets/icons/home.png" alt="Home"> Домашняя страница</li>
+                            <li><img src="assets/icons/this_pc.png" alt="This PC"> Этот ПК</li>
+                            <li><img src="assets/icons/documents.png" alt="Documents"> Документы</li>
+                            <li><img src="assets/icons/downloads.png" alt="Downloads"> Загрузки</li>
+                            <li><img src="assets/icons/pictures.png" alt="Pictures"> Изображения</li>
+                        </ul>
+                    </div>
+                    <div class="explorer-main">
+                        <h3>Локальный диск (C:)</h3>
+                        <div class="folder-grid">
+                            <div class="folder-item">
+                                <img src="assets/icons/folder.png" alt="Folder">
+                                <span>Program Files</span>
+                            </div>
+                            <div class="folder-item">
+                                <img src="assets/icons/folder.png" alt="Folder">
+                                <span>Users</span>
+                            </div>
+                            <div class="folder-item">
+                                <img src="assets/icons/folder.png" alt="Folder">
+                                <span>Windows</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
+
+        <div class="app-window hidden" id="notepadWindow" data-app-id="notepad">
+            <div class="window-header">
+                <img src="assets/icons/notepad.png" alt="Блокнот" class="window-app-icon">
+                <span class="window-title">Без названия - Блокнот</span>
+                <div class="window-controls">
+                    <button class="minimize-button">—</button>
+                    <button class="maximize-button">▢</button>
+                    <button class="close-button">✕</button>
+                </div>
+            </div>
+            <div class="window-content">
+                <textarea class="notepad-textarea" placeholder="Начните печатать здесь..."></textarea>
+            </div>
         </div>
+
+        <div class="app-window hidden" id="calculatorWindow" data-app-id="calculator">
+            <div class="window-header">
+                <img src="assets/icons/calculator.png" alt="Калькулятор" class="window-app-icon">
+                <span class="window-title">Калькулятор</span>
+                <div class="window-controls">
+                    <button class="minimize-button">—</button>
+                    <button class="maximize-button">▢</button>
+                    <button class="close-button">✕</button>
+                </div>
+            </div>
+            <div class="window-content calculator-content">
+                <div class="calculator-display">0</div>
+                <div class="calculator-buttons">
+                    <button>C</button>
+                    <button>+/-</button>
+                    <button>%</button>
+                    <button>÷</button>
+                    <button>7</button>
+                    <button>8</button>
+                    <button>9</button>
+                    <button>×</button>
+                    <button>4</button>
+                    <button>5</button>
+                    <button>6</button>
+                    <button>−</button>
+                    <button>1</button>
+                    <button>2</button>
+                    <button>3</button>
+                    <button>+</button>
+                    <button class="zero-button">0</button>
+                    <button>.</button>
+                    <button>=</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="app-window hidden" id="edgeWindow" data-app-id="edge">
+            <div class="window-header">
+                <img src="assets/icons/edge.png" alt="Microsoft Edge" class="window-app-icon">
+                <span class="window-title">Microsoft Edge</span>
+                <div class="window-controls">
+                    <button class="minimize-button">—</button>
+                    <button class="maximize-button">▢</button>
+                    <button class="close-button">✕</button>
+                </div>
+            </div>
+            <div class="window-content">
+                <div class="edge-browser-bar">
+                    <input type="text" value="https://www.google.com" readonly>
+                    <button><img src="assets/icons/refresh.png" alt="Refresh"></button>
+                </div>
+                <iframe src="https://www.google.com/webhp?igu=1" frameborder="0" class="edge-iframe"></iframe>
+            </div>
+        </div>
+
+    </div>
 
     <script src="js/script.js"></script>
 </body>

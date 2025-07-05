@@ -1,0 +1,737 @@
+/* Общие сбросы и базовые стили */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Arial, sans-serif; /* Имитация шрифта Windows */
+    user-select: none; /* Предотвращает выделение текста */
+    -webkit-font-smoothing: antialiased; /* Сглаживание шрифтов для лучшего вида */
+    -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+    overflow: hidden; /* Предотвращает прокрутку страницы */
+    background: url('../assets/backgrounds/win11_bg.jpg') no-repeat center center fixed; /* Фон Windows 11 */
+    background-size: cover;
+    color: #fff;
+    cursor: default; /* Курсор по умолчанию */
+}
+
+/* --- Рабочий Стол --- */
+#desktop {
+    position: relative;
+    width: 100vw;
+    height: calc(100vh - 48px); /* Высота экрана минус панель задач */
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap; /* Позволяет иконкам переноситься на новую "строку" */
+    padding: 10px;
+    align-items: flex-start;
+    gap: 15px; /* Расстояние между иконками */
+    align-content: flex-start; /* Выравнивание колонок для wrap */
+}
+
+.desktop-icon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 80px; /* Ширина иконки */
+    height: 90px; /* Высота иконки с текстом */
+    text-align: center;
+    color: #fff;
+    font-size: 13px;
+    cursor: pointer;
+    border: 1px solid transparent; /* Для эффекта выделения */
+    padding: 5px;
+    border-radius: 5px;
+    transition: background-color 0.1s ease, border-color 0.1s ease;
+}
+
+.desktop-icon:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.desktop-icon:active {
+    background-color: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.desktop-icon img {
+    width: 48px; /* Размер иконки */
+    height: 48px;
+    margin-bottom: 5px;
+    pointer-events: none; /* Игнорировать клики по изображению внутри иконки */
+}
+
+.desktop-icon span {
+    pointer-events: none; /* Игнорировать клики по тексту внутри иконки */
+}
+
+/* --- Панель Задач --- */
+#taskbar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 48px; /* Высота панели задач */
+    background-color: rgba(0, 0, 0, 0.6); /* Полупрозрачный фон */
+    backdrop-filter: blur(20px); /* Эффект размытия */
+    display: flex;
+    justify-content: center; /* Центрирование элементов */
+    align-items: center;
+    padding: 0 10px;
+    z-index: 100;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3);
+}
+
+#start-button {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    padding: 0 15px;
+    cursor: pointer;
+    margin-right: 10px;
+    border-radius: 5px;
+    transition: background-color 0.2s;
+}
+
+#start-button:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+#start-button:active {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+#start-button img {
+    height: 24px; /* Размер иконки Пуск */
+    filter: brightness(0) invert(1); /* Делает иконку белой */
+    pointer-events: none;
+}
+
+#taskbar-center-icons {
+    display: flex;
+    align-items: center;
+    gap: 5px; /* Расстояние между иконками в центре */
+    flex-grow: 1; /* Чтобы заняли доступное пространство */
+    justify-content: center; /* Центрирование внутри себя */
+}
+
+.taskbar-icon {
+    height: 40px;
+    width: 40px;
+    padding: 8px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.2s;
+    outline: none; /* Убрать обводку при фокусе */
+}
+
+.taskbar-icon:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.taskbar-icon:active {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+#taskbar-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-left: auto; /* Прижимает к правому краю */
+    font-size: 13px;
+    text-align: right;
+    padding-right: 5px; /* Небольшой отступ от края */
+}
+
+.system-tray-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+    border-radius: 5px;
+    transition: background-color 0.2s;
+    cursor: pointer;
+}
+.system-tray-icon:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.system-tray-icon img {
+    height: 20px;
+    width: 20px;
+    opacity: 0.7; /* Небольшая прозрачность */
+    pointer-events: none;
+}
+
+.system-tray-icon.time-date-container {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.2;
+    padding: 3px 8px; /* Дополнительные отступы для времени/даты */
+}
+
+
+/* --- Меню Пуск --- */
+#start-menu {
+    position: fixed;
+    bottom: 58px; /* Выше панели задач */
+    left: 50%;
+    transform: translateX(-50%); /* Центрирование */
+    width: 500px; /* Ширина меню */
+    max-height: 600px;
+    background-color: rgba(30, 30, 30, 0.9); /* Темный полупрозрачный фон */
+    backdrop-filter: blur(30px);
+    border-radius: 10px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    z-index: 99;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(-50%) translateY(20px); /* Начальное положение для анимации */
+    transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+}
+
+#start-menu.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+}
+
+.start-menu-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: bold;
+    font-size: 14px;
+    color: #bbb;
+}
+
+.start-menu-all-apps-button {
+    color: #0078d4; /* Синий цвет ссылки */
+    cursor: pointer;
+    padding: 5px 10px;
+    border-radius: 5px;
+    transition: background-color 0.2s;
+}
+.start-menu-all-apps-button:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+
+.start-menu-pinned-apps {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); /* 3-4 плитки в ряд */
+    gap: 15px;
+    padding: 10px;
+    background-color: rgba(255, 255, 255, 0.05); /* Легкий фон для секции */
+    border-radius: 8px;
+}
+
+.start-app-tile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    border-radius: 8px;
+    background-color: transparent;
+    transition: background-color 0.2s;
+    cursor: pointer;
+}
+
+.start-app-tile:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+.start-app-tile:active {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.start-app-tile img {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 5px;
+    pointer-events: none;
+}
+
+.start-app-tile span {
+    font-size: 13px;
+    text-align: center;
+    pointer-events: none;
+}
+
+.start-menu-recommended {
+    padding-top: 10px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+.start-menu-recommended .start-menu-header { /* Используем заголовок из верхней части */
+    margin-bottom: 15px;
+}
+
+.start-menu-more-recommended {
+    color: #0078d4; /* Синий цвет ссылки */
+    cursor: pointer;
+    padding: 5px 10px;
+    border-radius: 5px;
+    transition: background-color 0.2s;
+}
+.start-menu-more-recommended:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.recommended-items {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.recommended-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    border-radius: 8px;
+    transition: background-color 0.2s;
+    cursor: pointer;
+}
+.recommended-item:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.recommended-item img {
+    width: 32px;
+    height: 32px;
+}
+
+.recommended-item div {
+    display: flex;
+    flex-direction: column;
+}
+
+.recommended-item span {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.recommended-item p {
+    font-size: 12px;
+    color: #aaa;
+}
+
+
+.start-menu-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 10px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.start-menu-user, .start-menu-power {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    padding: 8px 12px;
+    border-radius: 5px;
+    transition: background-color 0.2s;
+}
+
+.start-menu-user:hover, .start-menu-power:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+.start-menu-user:active, .start-menu-power:active {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.start-menu-user img, .start-menu-power img {
+    width: 24px;
+    height: 24px;
+    filter: brightness(0) invert(1); /* Делает иконки белыми */
+    pointer-events: none;
+}
+.start-menu-user span, .start-menu-power span {
+    pointer-events: none;
+}
+
+
+/* --- Окна Приложений --- */
+#app-windows-container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    pointer-events: none; /* Позволяет кликать "сквозь" контейнер, если нет окон */
+}
+
+.app-window {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 700px; /* Увеличим стандартный размер Проводника */
+    height: 500px;
+    background-color: #2b2b2b; /* Цвет окон по умолчанию */
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.05); /* Тень и тонкая рамка */
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; /* Чтобы содержимое не вылезало за границы */
+    resize: both; /* Позволяет изменять размер окна */
+    overflow: auto; /* Позволяет прокручивать содержимое окна при изменении размера */
+    z-index: 50; /* Базовый z-index */
+    pointer-events: all; /* Включает события для окна */
+    min-width: 300px; /* Минимальная ширина окна */
+    min-height: 200px; /* Минимальная высота окна */
+}
+
+.app-window.maximized {
+    width: 100vw !important;
+    height: calc(100vh - 48px) !important; /* На весь экран минус панель задач */
+    top: 0 !important;
+    left: 0 !important;
+    transform: none !important;
+    border-radius: 0 !important;
+    resize: none !important;
+}
+
+
+.window-header {
+    background-color: #202020; /* Темнее, чем тело окна */
+    padding: 8px 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: grab; /* Курсор для перетаскивания */
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    flex-shrink: 0; /* Чтобы не сжимался при ресайзе */
+}
+
+.window-header .window-app-icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 8px;
+    filter: brightness(0) invert(1); /* Делает иконки белыми, если они цветные */
+}
+
+.window-title {
+    font-weight: normal; /* Windows 11 не использует жирный шрифт в заголовках */
+    font-size: 14px;
+    color: #ccc;
+    display: flex;
+    align-items: center;
+    flex-grow: 1; /* Занимает доступное пространство */
+    white-space: nowrap; /* Предотвращает перенос текста */
+    overflow: hidden;
+    text-overflow: ellipsis; /* Добавляет многоточие, если текст не помещается */
+}
+
+
+.window-controls {
+    display: flex;
+    gap: 0; /* Без зазоров между кнопками */
+}
+
+.window-controls button {
+    background-color: transparent;
+    border: none;
+    color: #ccc;
+    font-size: 18px;
+    width: 40px;
+    height: 30px;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    outline: none;
+}
+
+.minimize-button:hover,
+.maximize-button:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.close-button:hover {
+    background-color: #e81123; /* Красный фон при наведении */
+    color: #fff;
+}
+
+.window-controls button:active {
+    background-color: rgba(255, 255, 255, 0.2); /* Эффект нажатия */
+}
+.close-button:active {
+    background-color: #c70a1a !important;
+}
+
+
+.window-content {
+    flex-grow: 1; /* Занимает все доступное пространство */
+    padding: 15px;
+    color: #ddd;
+    font-size: 14px;
+    overflow: auto; /* Позволяет прокручивать содержимое внутри окна */
+    display: flex; /* Чтобы можно было использовать flexbox внутри контента */
+    flex-direction: column;
+}
+
+/* Утилитарные классы */
+.hidden {
+    display: none !important;
+}
+
+.active-window {
+    z-index: 60; /* Активное окно поверх других */
+}
+
+
+/* --- Стили для Проводника --- */
+#explorerWindow .window-header .window-app-icon {
+    filter: none; /* Проводник имеет цветную иконку */
+}
+#explorerWindow .window-title {
+    color: #fff;
+}
+
+.explorer-content {
+    display: flex;
+    height: 100%;
+}
+
+.explorer-sidebar {
+    width: 200px;
+    background-color: #202020;
+    padding: 10px 0;
+    border-right: 1px solid rgba(255, 255, 255, 0.05);
+    flex-shrink: 0; /* Не сжимать при ресайзе */
+}
+
+.explorer-sidebar ul {
+    list-style: none;
+}
+
+.explorer-sidebar li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 15px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.explorer-sidebar li:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+.explorer-sidebar li:active {
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
+.explorer-sidebar li img {
+    width: 20px;
+    height: 20px;
+    filter: brightness(0) invert(1); /* Делает иконки белыми, если они цветные */
+}
+
+.explorer-main {
+    flex-grow: 1;
+    padding: 15px;
+    background-color: #2b2b2b;
+}
+
+.explorer-main h3 {
+    margin-bottom: 15px;
+    color: #eee;
+    font-size: 16px;
+    font-weight: normal;
+}
+
+.folder-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 15px;
+}
+
+.folder-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    padding: 10px;
+    border-radius: 5px;
+    transition: background-color 0.2s;
+    cursor: pointer;
+}
+
+.folder-item:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+.folder-item:active {
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
+.folder-item img {
+    width: 48px;
+    height: 48px;
+    pointer-events: none;
+}
+.folder-item span {
+    font-size: 13px;
+    text-align: center;
+    pointer-events: none;
+}
+
+
+/* --- Стили для Блокнота --- */
+.notepad-textarea {
+    width: 100%;
+    height: 100%;
+    background-color: #202020;
+    border: none;
+    outline: none;
+    color: #eee;
+    font-size: 16px;
+    padding: 10px;
+    resize: none; /* Запретить изменение размера текстового поля */
+    font-family: 'Consolas', 'Courier New', monospace; /* Моноширинный шрифт */
+}
+
+/* --- Стили для Калькулятора --- */
+.calculator-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: stretch;
+    padding: 10px;
+    background-color: #1a1a1a;
+}
+
+.calculator-display {
+    background-color: #1a1a1a;
+    color: #fff;
+    font-size: 4em;
+    text-align: right;
+    padding: 20px 10px;
+    min-height: 80px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    overflow-x: auto;
+    white-space: nowrap;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 10px;
+}
+
+.calculator-buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    flex-grow: 1;
+}
+
+.calculator-buttons button {
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.8em;
+    padding: 15px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    outline: none;
+}
+
+.calculator-buttons button:hover {
+    background-color: #444;
+}
+
+.calculator-buttons button:active {
+    background-color: #555;
+}
+
+.calculator-buttons button:nth-child(4n), /* Операторы (+, -, x, ÷) */
+.calculator-buttons button:nth-child(20) /* Кнопка "=" */ {
+    background-color: #0078d4; /* Синий цвет для операторов */
+}
+
+.calculator-buttons button:nth-child(4n):hover,
+.calculator-buttons button:nth-child(20):hover {
+    background-color: #0063b1;
+}
+.calculator-buttons button:nth-child(4n):active,
+.calculator-buttons button:nth-child(20):active {
+    background-color: #00569f;
+}
+
+.calculator-buttons .zero-button {
+    grid-column: span 2; /* Кнопка "0" занимает две колонки */
+}
+
+/* --- Стили для Microsoft Edge --- */
+#edgeWindow {
+    width: 800px;
+    height: 600px;
+}
+#edgeWindow .window-header .window-app-icon {
+    filter: none; /* Edge имеет цветную иконку */
+}
+
+.edge-browser-bar {
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    background-color: #333;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    flex-shrink: 0;
+}
+
+.edge-browser-bar input {
+    flex-grow: 1;
+    padding: 8px 12px;
+    border: 1px solid #555;
+    border-radius: 20px; /* Закругленная строка поиска */
+    background-color: #444;
+    color: #eee;
+    font-size: 14px;
+    outline: none;
+}
+
+.edge-browser-bar button {
+    background-color: transparent;
+    border: none;
+    padding: 5px;
+    cursor: pointer;
+    margin-left: 10px;
+    border-radius: 50%;
+    transition: background-color 0.2s;
+}
+.edge-browser-bar button:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+.edge-browser-bar button img {
+    width: 20px;
+    height: 20px;
+    filter: brightness(0) invert(1); /* Делает иконку белой */
+}
+
+.edge-iframe {
+    width: 100%;
+    flex-grow: 1; /* Занимает всю оставшуюся высоту */
+    border: none;
+    background-color: #fff; /* Фон iframe */
+}
+
+/* Общие стили для изображений в заголовках окон */
+.window-app-icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 8px;
+    vertical-align: middle;
+}
